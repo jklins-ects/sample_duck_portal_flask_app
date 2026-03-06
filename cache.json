@@ -7,11 +7,11 @@
         ],
         "body": {
             "head": "#f0d35f",
-            "front1": "#e9bc4f",
-            "front2": "#f6d32d",
-            "back1": "#ffffff",
-            "back2": "#ed333b",
-            "_id": "69a881b504f2a69eea6979d0"
+            "_id": "69a881b504f2a69eea6979d0",
+            "frontLeft": "#e9bc4f",
+            "frontRight": "#f6d32d",
+            "rearLeft": "#ffffff",
+            "rearRight": "#ed333b"
         },
         "derpy": false,
         "bio": "biography",
@@ -38,11 +38,11 @@
         ],
         "body": {
             "head": "#000000",
-            "front1": "#000000",
-            "front2": "#000000",
-            "back1": "#000000",
-            "back2": "#000000",
-            "_id": "69a886bd04f2a69eea6979d8"
+            "_id": "69a886bd04f2a69eea6979d8",
+            "frontLeft": "#000000",
+            "frontRight": "#000000",
+            "rearLeft": "#000000",
+            "rearRight": "#000000"
         },
         "derpy": true,
         "bio": "he's a ninja",
@@ -69,10 +69,10 @@
         ],
         "body": {
             "head": "yellow",
-            "front1": "red",
-            "front2": "blue",
-            "back1": "green",
-            "back2": "purple"
+            "frontLeft": "red",
+            "frontRight": "blue",
+            "rearLeft": "green",
+            "rearRight": "purple"
         },
         "derpy": false,
         "bio": "Quibble enjoys quietly watching the room before suddenly leaping into action when something interesting appears.",
@@ -98,10 +98,10 @@
         ],
         "body": {
             "head": "pink",
-            "front1": "yellow",
-            "front2": "brown",
-            "back1": "red",
-            "back2": "blue"
+            "frontLeft": "yellow",
+            "frontRight": "brown",
+            "rearLeft": "red",
+            "rearRight": "blue"
         },
         "derpy": true,
         "bio": "Bloop waddles in circles and somehow always ends up exactly where it meant to go.",
@@ -127,10 +127,10 @@
         ],
         "body": {
             "head": "blue",
-            "front1": "green",
-            "front2": "yellow",
-            "back1": "purple",
-            "back2": "pink"
+            "frontLeft": "green",
+            "frontRight": "yellow",
+            "rearLeft": "purple",
+            "rearRight": "pink"
         },
         "derpy": false,
         "bio": "Pixel studies every situation carefully and prefers clever solutions over brute force.",
@@ -156,10 +156,10 @@
         ],
         "body": {
             "head": "green",
-            "front1": "pink",
-            "front2": "yellow",
-            "back1": "blue",
-            "back2": "brown"
+            "frontLeft": "pink",
+            "frontRight": "yellow",
+            "rearLeft": "blue",
+            "rearRight": "brown"
         },
         "derpy": true,
         "bio": "Noodle can never sit still and is always bouncing around looking for its next adventure.",
@@ -185,10 +185,10 @@
         ],
         "body": {
             "head": "purple",
-            "front1": "blue",
-            "front2": "green",
-            "back1": "yellow",
-            "back2": "pink"
+            "frontLeft": "blue",
+            "frontRight": "green",
+            "rearLeft": "yellow",
+            "rearRight": "pink"
         },
         "derpy": false,
         "bio": "Nimbus prefers quiet corners and helps others slow down and think clearly.",
@@ -214,10 +214,10 @@
         ],
         "body": {
             "head": "brown",
-            "front1": "yellow",
-            "front2": "green",
-            "back1": "purple",
-            "back2": "red"
+            "frontLeft": "yellow",
+            "frontRight": "green",
+            "rearLeft": "purple",
+            "rearRight": "red"
         },
         "derpy": false,
         "bio": "Cricket darts across the room and seems to notice everything that happens.",
@@ -243,10 +243,10 @@
         ],
         "body": {
             "head": "yellow",
-            "front1": "pink",
-            "front2": "purple",
-            "back1": "blue",
-            "back2": "green"
+            "frontLeft": "pink",
+            "frontRight": "purple",
+            "rearLeft": "blue",
+            "rearRight": "green"
         },
         "derpy": false,
         "bio": "Waffles brings excitement to every moment and encourages teammates.",
@@ -272,10 +272,10 @@
         ],
         "body": {
             "head": "brown",
-            "front1": "red",
-            "front2": "yellow",
-            "back1": "green",
-            "back2": "pink"
+            "frontLeft": "red",
+            "frontRight": "yellow",
+            "rearLeft": "green",
+            "rearRight": "pink"
         },
         "derpy": true,
         "bio": "Biscuit waddles happily through every situation and spreads calm energy.",
@@ -301,10 +301,10 @@
         ],
         "body": {
             "head": "red",
-            "front1": "blue",
-            "front2": "yellow",
-            "back1": "purple",
-            "back2": "green"
+            "frontLeft": "blue",
+            "frontRight": "yellow",
+            "rearLeft": "purple",
+            "rearRight": "green"
         },
         "derpy": false,
         "bio": "Zap rushes into action quickly and enjoys competitive challenges.",
@@ -330,10 +330,10 @@
         ],
         "body": {
             "head": "pink",
-            "front1": "purple",
-            "front2": "green",
-            "back1": "yellow",
-            "back2": "blue"
+            "frontLeft": "purple",
+            "frontRight": "green",
+            "rearLeft": "yellow",
+            "rearRight": "blue"
         },
         "derpy": true,
         "bio": "Marbles invents unusual games that somehow become everyone\u2019s favorite activity.",
@@ -359,10 +359,10 @@
         ],
         "body": {
             "head": "green",
-            "front1": "yellow",
-            "front2": "blue",
-            "back1": "pink",
-            "back2": "purple"
+            "frontLeft": "yellow",
+            "frontRight": "blue",
+            "rearLeft": "pink",
+            "rearRight": "purple"
         },
         "derpy": false,
         "bio": "Orbit circles around new ideas until the perfect solution appears.",
@@ -388,10 +388,10 @@
         ],
         "body": {
             "head": "yellow",
-            "front1": "green",
-            "front2": "pink",
-            "back1": "brown",
-            "back2": "purple"
+            "frontLeft": "green",
+            "frontRight": "pink",
+            "rearLeft": "brown",
+            "rearRight": "purple"
         },
         "derpy": false,
         "bio": "Sprout encourages everyone to try again even when things feel difficult.",
@@ -417,10 +417,10 @@
         ],
         "body": {
             "head": "red",
-            "front1": "yellow",
-            "front2": "blue",
-            "back1": "green",
-            "back2": "purple"
+            "frontLeft": "yellow",
+            "frontRight": "blue",
+            "rearLeft": "green",
+            "rearRight": "purple"
         },
         "derpy": false,
         "bio": "Rocket blasts into new challenges with incredible confidence.",
@@ -446,10 +446,10 @@
         ],
         "body": {
             "head": "brown",
-            "front1": "green",
-            "front2": "yellow",
-            "back1": "blue",
-            "back2": "pink"
+            "frontLeft": "green",
+            "frontRight": "yellow",
+            "rearLeft": "blue",
+            "rearRight": "pink"
         },
         "derpy": false,
         "bio": "Pebble may be small but never gives up when the team needs help.",
@@ -475,10 +475,10 @@
         ],
         "body": {
             "head": "pink",
-            "front1": "purple",
-            "front2": "yellow",
-            "back1": "green",
-            "back2": "blue"
+            "frontLeft": "purple",
+            "frontRight": "yellow",
+            "rearLeft": "green",
+            "rearRight": "blue"
         },
         "derpy": true,
         "bio": "Twizzle loves spinning around the room before starting any new adventure.",
@@ -504,10 +504,10 @@
         ],
         "body": {
             "head": "blue",
-            "front1": "green",
-            "front2": "yellow",
-            "back1": "purple",
-            "back2": "pink"
+            "frontLeft": "green",
+            "frontRight": "yellow",
+            "rearLeft": "purple",
+            "rearRight": "pink"
         },
         "derpy": false,
         "bio": "Echo listens carefully before offering clever ideas.",
@@ -533,10 +533,10 @@
         ],
         "body": {
             "head": "red",
-            "front1": "yellow",
-            "front2": "purple",
-            "back1": "blue",
-            "back2": "green"
+            "frontLeft": "yellow",
+            "frontRight": "purple",
+            "rearLeft": "blue",
+            "rearRight": "green"
         },
         "derpy": false,
         "bio": "Tango leaps into action and inspires others to follow.",
@@ -562,10 +562,10 @@
         ],
         "body": {
             "head": "pink",
-            "front1": "yellow",
-            "front2": "green",
-            "back1": "purple",
-            "back2": "blue"
+            "frontLeft": "yellow",
+            "frontRight": "green",
+            "rearLeft": "purple",
+            "rearRight": "blue"
         },
         "derpy": true,
         "bio": "Pogo bounces everywhere spreading excitement.",
@@ -591,10 +591,10 @@
         ],
         "body": {
             "head": "yellow",
-            "front1": "blue",
-            "front2": "green",
-            "back1": "pink",
-            "back2": "purple"
+            "frontLeft": "blue",
+            "frontRight": "green",
+            "rearLeft": "pink",
+            "rearRight": "purple"
         },
         "derpy": false,
         "bio": "Blip moves quickly and always seems one step ahead.",
@@ -620,10 +620,10 @@
         ],
         "body": {
             "head": "brown",
-            "front1": "pink",
-            "front2": "yellow",
-            "back1": "green",
-            "back2": "purple"
+            "frontLeft": "pink",
+            "frontRight": "yellow",
+            "rearLeft": "green",
+            "rearRight": "purple"
         },
         "derpy": false,
         "bio": "Mocha enjoys warm corners and friendly company.",
@@ -649,10 +649,10 @@
         ],
         "body": {
             "head": "red",
-            "front1": "blue",
-            "front2": "yellow",
-            "back1": "purple",
-            "back2": "green"
+            "frontLeft": "blue",
+            "frontRight": "yellow",
+            "rearLeft": "purple",
+            "rearRight": "green"
         },
         "derpy": false,
         "bio": "Bolt charges through obstacles with unstoppable energy.",
@@ -678,10 +678,10 @@
         ],
         "body": {
             "head": "green",
-            "front1": "yellow",
-            "front2": "pink",
-            "back1": "blue",
-            "back2": "purple"
+            "frontLeft": "yellow",
+            "frontRight": "pink",
+            "rearLeft": "blue",
+            "rearRight": "purple"
         },
         "derpy": false,
         "bio": "Mint encourages new ideas and positive thinking.",
@@ -707,10 +707,10 @@
         ],
         "body": {
             "head": "brown",
-            "front1": "yellow",
-            "front2": "green",
-            "back1": "pink",
-            "back2": "blue"
+            "frontLeft": "yellow",
+            "frontRight": "green",
+            "rearLeft": "pink",
+            "rearRight": "blue"
         },
         "derpy": false,
         "bio": "Pebbles quietly supports the entire team.",
@@ -736,10 +736,10 @@
         ],
         "body": {
             "head": "pink",
-            "front1": "purple",
-            "front2": "yellow",
-            "back1": "green",
-            "back2": "blue"
+            "frontLeft": "purple",
+            "frontRight": "yellow",
+            "rearLeft": "green",
+            "rearRight": "blue"
         },
         "derpy": true,
         "bio": "Fizz pops with excitement whenever something new happens.",
@@ -765,10 +765,10 @@
         ],
         "body": {
             "head": "blue",
-            "front1": "yellow",
-            "front2": "green",
-            "back1": "purple",
-            "back2": "pink"
+            "frontLeft": "yellow",
+            "frontRight": "green",
+            "rearLeft": "purple",
+            "rearRight": "pink"
         },
         "derpy": false,
         "bio": "Orbit Jr studies the room carefully before acting.",
@@ -794,10 +794,10 @@
         ],
         "body": {
             "head": "green",
-            "front1": "blue",
-            "front2": "yellow",
-            "back1": "pink",
-            "back2": "purple"
+            "frontLeft": "blue",
+            "frontRight": "yellow",
+            "rearLeft": "pink",
+            "rearRight": "purple"
         },
         "derpy": false,
         "bio": "Glider moves gracefully through every challenge.",
@@ -823,10 +823,10 @@
         ],
         "body": {
             "head": "red",
-            "front1": "brown",
-            "front2": "yellow",
-            "back1": "green",
-            "back2": "blue"
+            "frontLeft": "brown",
+            "frontRight": "yellow",
+            "rearLeft": "green",
+            "rearRight": "blue"
         },
         "derpy": false,
         "bio": "Rumble loves big dramatic moments.",
@@ -852,10 +852,10 @@
         ],
         "body": {
             "head": "purple",
-            "front1": "pink",
-            "front2": "blue",
-            "back1": "yellow",
-            "back2": "green"
+            "frontLeft": "pink",
+            "frontRight": "blue",
+            "rearLeft": "yellow",
+            "rearRight": "green"
         },
         "derpy": false,
         "bio": "Luna loves peaceful nights and thoughtful plans.",
@@ -881,10 +881,10 @@
         ],
         "body": {
             "head": "yellow",
-            "front1": "blue",
-            "front2": "red",
-            "back1": "green",
-            "back2": "purple"
+            "frontLeft": "blue",
+            "frontRight": "red",
+            "rearLeft": "green",
+            "rearRight": "purple"
         },
         "derpy": false,
         "bio": "Sprinter races through every challenge.",
@@ -910,10 +910,10 @@
         ],
         "body": {
             "head": "yellow",
-            "front1": "pink",
-            "front2": "purple",
-            "back1": "green",
-            "back2": "blue"
+            "frontLeft": "pink",
+            "frontRight": "purple",
+            "rearLeft": "green",
+            "rearRight": "blue"
         },
         "derpy": false,
         "bio": "Glow brings positivity wherever it goes.",
