@@ -69,6 +69,7 @@
                 font-size: 14px;
                 text-align: center;
                 padding: 12px;
+                z-index: 3;
             }
             .info {
                 padding: 12px;
@@ -108,6 +109,38 @@
                     grid-template-columns: 1fr;
                 }
             }
+
+            .loadingDuck {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                pointer-events: none;
+                z-index: 10;
+                display: none;
+            }
+
+            .loadingDuck.idle {
+                display: block;
+                width: 60px;
+                opacity: 0.5;
+            }
+
+            .loadingDuck.loading {
+                display: block;
+                width: 120px;
+                opacity: 0.9;
+            }
+
+            .loadingDuck.hidden {
+                display: none;
+            }
+
+            .viewer canvas {
+                position: absolute;
+                inset: 0;
+                z-index: 1;
+            }
         </style>
 
         <!-- three.js importmap pattern (same style as your viewer) -->
@@ -139,6 +172,12 @@
                     </div>
 
                     <div class="viewer" id="viewer-left">
+                        <img
+                            id="loading-left"
+                            class="loadingDuck"
+                            src="/static/images/Loading_Duck 1.gif"
+                        />
+
                         <div class="placeholder" id="placeholder-left">
                             Please add a duck to the portal
                         </div>
@@ -160,6 +199,12 @@
                     </div>
 
                     <div class="viewer" id="viewer-right">
+                        <img
+                            id="loading-right"
+                            class="loadingDuck"
+                            src="/static/images/Loading_Duck 1.gif"
+                        />
+
                         <div class="placeholder" id="placeholder-right">
                             Please add a duck to the portal
                         </div>

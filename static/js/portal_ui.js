@@ -47,22 +47,41 @@ function renderInfo(side, duck) {
 }
 
 async function handlePortalUpdate({ side, uid, duck }) {
-    if (!side || !viewers[side]) return;
-
+    showLoading(side);
     setPlaceholder(side, false);
-    setUid(side, uid);
-    renderInfo(side, duck);
 
     await viewers[side].showDuck(duck);
+
+    hideLoading(side);
+    setUid(side, uid);
+    renderInfo(side, duck);
 }
 
 function handlePortalClear({ side }) {
-    if (!side || !viewers[side]) return;
-
     viewers[side].clearDuck();
     setUid(side, "");
     renderInfo(side, null);
     setPlaceholder(side, true);
+    showIdle(side);
+}
+
+function setDuckVisualState(side, state) {
+    const img = document.getElementById(`loading-${side}`);
+
+    img.classList.remove("idle", "loading", "hidden");
+    img.classList.add(state);
+}
+
+function showLoading(side) {
+    setDuckVisualState(side, "loading");
+}
+
+function showIdle(side) {
+    setDuckVisualState(side, "idle");
+}
+
+function hideLoading(side) {
+    setDuckVisualState(side, "hidden");
 }
 
 socket.on("portal_update", handlePortalUpdate);
