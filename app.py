@@ -14,7 +14,7 @@ from nfc_portal import (
 # Config
 # --------------------------------
 
-SIMULATION_MODE = True
+SIMULATION_MODE = False
 
 # Real reader matching
 LEFT_READER_MATCH = "0"

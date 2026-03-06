@@ -51,7 +51,10 @@ async function handlePortalUpdate({ side, uid, duck }) {
     setPlaceholder(side, false);
 
     await viewers[side].showDuck(duck);
-
+    if (document.getElementById("audioToggle").checked) {
+        const audio = new Audio("/static/audio/quack.mp3");
+        audio.play();
+    }
     hideLoading(side);
     setUid(side, uid);
     renderInfo(side, duck);
