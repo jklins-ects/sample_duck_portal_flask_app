@@ -154,7 +154,11 @@ export class DuckViewer {
             };
 
             if (Array.isArray(mat)) {
-                for (const m of mat) setColor(m, meshKey);
+                for (const m of mat) {
+                    console.log(m);
+                    let key = m.name;
+                    setColor(m, key);
+                }
             } else {
                 setColor(mat, meshKey);
             }
