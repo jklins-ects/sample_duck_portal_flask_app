@@ -124,10 +124,11 @@ export class DuckViewer {
         // Adjust these keys once you know your exact mesh/material names.
         const duck_colors = {
             head: duck.body?.head ?? "yellow",
-            front_left: duck.body?.front1 ?? "yellow",
-            front_right: duck.body?.front2 ?? "yellow",
-            rear_left: duck.body?.back1 ?? "yellow",
-            rear_right: duck.body?.back2 ?? "yellow",
+            front_left: duck.body?.front_left ?? duck.body?.front1 ?? "yellow", //frpnt1 fallback to check for old naming system
+            front_right:
+                duck.body?.front_right ?? duck.body?.front2 ?? "yellow",
+            rear_left: duck.body?.rear_left ?? duck.body?.back1 ?? "yellow",
+            rear_right: duck.body?.rear_right ?? duck.body?.back2 ?? "yellow",
 
             // eyes logic from your viewer concept
             eyes: isDerpy ? "white" : "black",

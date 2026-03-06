@@ -928,5 +928,34 @@
         },
         "__v": 0,
         "assembler": "Madison Ward"
+    },
+    {
+        "_id": "69ab28bac7a04b12359eadb2",
+        "name": "TonyDuck",
+        "assember": "Tony",
+        "adjectives": [
+            "verytony"
+        ],
+        "body": {
+            "head": "#63452c",
+            "frontLeft": "#e9bc4f",
+            "frontRight": "#d88f3d",
+            "rearLeft": "#9f6f2b",
+            "rearRight": "#6f4b1f",
+            "_id": "69ab28bac7a04b12359eadb3"
+        },
+        "derpy": false,
+        "bio": "tonysamazingduck",
+        "date": "2026-03-06T00:00:00.000Z",
+        "approved": false,
+        "stats": {
+            "strength": 900000,
+            "health": 1,
+            "focus": 1,
+            "intelligence": 1,
+            "kindness": 1,
+            "_id": "69ab28bac7a04b12359eadb4"
+        },
+        "__v": 0
     }
 ]
