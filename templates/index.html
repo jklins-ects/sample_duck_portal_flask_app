@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Duck Portals</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <style>
+            :root {
+                --bg: #0e0f12;
+                --panel: #151720;
+                --border: rgba(255, 255, 255, 0.12);
+                --text: #e9e9ef;
+                --muted: rgba(233, 233, 239, 0.75);
+                --accent: #4aa3ff;
+            }
+            html,
+            body {
+                margin: 0;
+                height: 100%;
+                background: var(--bg);
+                color: var(--text);
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            .wrap {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 18px;
+            }
+            h1 {
+                margin: 0 0 14px;
+                font-size: 20px;
+                font-weight: 700;
+            }
+            .grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 14px;
+            }
+            .card {
+                background: var(--panel);
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+            }
+            .cardHeader {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 10px 12px;
+                border-bottom: 1px solid var(--border);
+            }
+            .tag {
+                font-size: 12px;
+                color: var(--muted);
+            }
+            .viewer {
+                height: 340px;
+                position: relative;
+            }
+            .placeholder {
+                position: absolute;
+                inset: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--muted);
+                font-size: 14px;
+                text-align: center;
+                padding: 12px;
+            }
+            .info {
+                padding: 12px;
+                border-top: 1px solid var(--border);
+            }
+            .row {
+                margin: 6px 0;
+            }
+            .label {
+                color: var(--muted);
+                display: inline-block;
+                min-width: 90px;
+            }
+            .stats {
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 8px;
+                margin-top: 8px;
+            }
+            .stat {
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                padding: 8px 10px;
+                background: rgba(0, 0, 0, 0.15);
+            }
+            .stat .k {
+                font-size: 11px;
+                color: var(--muted);
+            }
+            .stat .v {
+                font-size: 18px;
+                font-weight: 700;
+                margin-top: 2px;
+            }
+            @media (max-width: 900px) {
+                .grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+
+        <!-- three.js importmap pattern (same style as your viewer) -->
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+                }
+            }
+        </script>
+
+        <!-- Socket.IO client (served by Flask-SocketIO) -->
+        <script src="/socket.io/socket.io.js"></script>
+    </head>
+
+    <body>
+        <div class="wrap">
+            <h1>Duck Portals</h1>
+
+            <div class="grid">
+                <!-- LEFT -->
+                <div class="card" id="card-left">
+                    <div class="cardHeader">
+                        <div>
+                            <strong>Left Portal</strong>
+                            <span class="tag" id="uid-left"></span>
+                        </div>
+                        <div class="tag">Reader match: "0"</div>
+                    </div>
+
+                    <div class="viewer" id="viewer-left">
+                        <div class="placeholder" id="placeholder-left">
+                            Please add a duck to the portal
+                        </div>
+                    </div>
+
+                    <div class="info" id="info-left">
+                        <!-- filled by JS -->
+                    </div>
+                </div>
+
+                <!-- RIGHT -->
+                <div class="card" id="card-right">
+                    <div class="cardHeader">
+                        <div>
+                            <strong>Right Portal</strong>
+                            <span class="tag" id="uid-right"></span>
+                        </div>
+                        <div class="tag">Reader match: "1"</div>
+                    </div>
+
+                    <div class="viewer" id="viewer-right">
+                        <div class="placeholder" id="placeholder-right">
+                            Please add a duck to the portal
+                        </div>
+                    </div>
+
+                    <div class="info" id="info-right">
+                        <!-- filled by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="module" src="/static/js/portal_ui.js"></script>
+    </body>
+</html>

@@ -1,0 +1,932 @@
+[
+    {
+        "_id": "69a881b504f2a69eea6979cf",
+        "name": "test",
+        "adjectives": [
+            "test test test"
+        ],
+        "body": {
+            "head": "#f0d35f",
+            "front1": "#e9bc4f",
+            "front2": "#f6d32d",
+            "back1": "#ffffff",
+            "back2": "#ed333b",
+            "_id": "69a881b504f2a69eea6979d0"
+        },
+        "derpy": false,
+        "bio": "biography",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 12,
+            "health": 1,
+            "focus": 1,
+            "intelligence": 1,
+            "kindness": 1,
+            "_id": "69a881b504f2a69eea6979d1"
+        },
+        "__v": 0,
+        "assembler": "teeeest"
+    },
+    {
+        "_id": "69a886bd04f2a69eea6979d7",
+        "name": "ninjaman",
+        "adjectives": [
+            "brave",
+            "speedy",
+            "sneaky"
+        ],
+        "body": {
+            "head": "#000000",
+            "front1": "#000000",
+            "front2": "#000000",
+            "back1": "#000000",
+            "back2": "#000000",
+            "_id": "69a886bd04f2a69eea6979d8"
+        },
+        "derpy": true,
+        "bio": "he's a ninja",
+        "date": "2026-03-25T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 1000,
+            "health": 1,
+            "focus": 10,
+            "intelligence": 14000,
+            "kindness": 3000,
+            "_id": "69a886bd04f2a69eea6979d9"
+        },
+        "__v": 0,
+        "assembler": "Thomas C"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d56",
+        "name": "Quibble",
+        "adjectives": [
+            "curious",
+            "sparkly",
+            "determined"
+        ],
+        "body": {
+            "head": "yellow",
+            "front1": "red",
+            "front2": "blue",
+            "back1": "green",
+            "back2": "purple"
+        },
+        "derpy": false,
+        "bio": "Quibble enjoys quietly watching the room before suddenly leaping into action when something interesting appears.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 7,
+            "health": 6,
+            "focus": 8,
+            "intelligence": 9,
+            "kindness": 7
+        },
+        "__v": 0,
+        "assembler": "Ava Miller"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d57",
+        "name": "Bloop",
+        "adjectives": [
+            "goofy",
+            "bouncy",
+            "friendly"
+        ],
+        "body": {
+            "head": "pink",
+            "front1": "yellow",
+            "front2": "brown",
+            "back1": "red",
+            "back2": "blue"
+        },
+        "derpy": true,
+        "bio": "Bloop waddles in circles and somehow always ends up exactly where it meant to go.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 5,
+            "health": 7,
+            "focus": 4,
+            "intelligence": 6,
+            "kindness": 9
+        },
+        "__v": 0,
+        "assembler": "Mason Carter"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d58",
+        "name": "Pixel",
+        "adjectives": [
+            "precise",
+            "focused",
+            "clever"
+        ],
+        "body": {
+            "head": "blue",
+            "front1": "green",
+            "front2": "yellow",
+            "back1": "purple",
+            "back2": "pink"
+        },
+        "derpy": false,
+        "bio": "Pixel studies every situation carefully and prefers clever solutions over brute force.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 8,
+            "health": 5,
+            "focus": 9,
+            "intelligence": 10,
+            "kindness": 6
+        },
+        "__v": 0,
+        "assembler": "Logan Diaz"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d59",
+        "name": "Noodle",
+        "adjectives": [
+            "wiggly",
+            "playful",
+            "energetic"
+        ],
+        "body": {
+            "head": "green",
+            "front1": "pink",
+            "front2": "yellow",
+            "back1": "blue",
+            "back2": "brown"
+        },
+        "derpy": true,
+        "bio": "Noodle can never sit still and is always bouncing around looking for its next adventure.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 6,
+            "health": 8,
+            "focus": 3,
+            "intelligence": 5,
+            "kindness": 8
+        },
+        "__v": 0,
+        "assembler": "Emma Hayes"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d5a",
+        "name": "Nimbus",
+        "adjectives": [
+            "calm",
+            "thoughtful",
+            "quiet"
+        ],
+        "body": {
+            "head": "purple",
+            "front1": "blue",
+            "front2": "green",
+            "back1": "yellow",
+            "back2": "pink"
+        },
+        "derpy": false,
+        "bio": "Nimbus prefers quiet corners and helps others slow down and think clearly.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 6,
+            "health": 7,
+            "focus": 9,
+            "intelligence": 8,
+            "kindness": 9
+        },
+        "__v": 0,
+        "assembler": "Isaac Turner"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d5b",
+        "name": "Cricket",
+        "adjectives": [
+            "quick",
+            "alert",
+            "tiny"
+        ],
+        "body": {
+            "head": "brown",
+            "front1": "yellow",
+            "front2": "green",
+            "back1": "purple",
+            "back2": "red"
+        },
+        "derpy": false,
+        "bio": "Cricket darts across the room and seems to notice everything that happens.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 5,
+            "health": 5,
+            "focus": 8,
+            "intelligence": 7,
+            "kindness": 7
+        },
+        "__v": 0,
+        "assembler": "Tyler Brooks"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d5c",
+        "name": "Waffles",
+        "adjectives": [
+            "cheerful",
+            "loyal",
+            "bright"
+        ],
+        "body": {
+            "head": "yellow",
+            "front1": "pink",
+            "front2": "purple",
+            "back1": "blue",
+            "back2": "green"
+        },
+        "derpy": false,
+        "bio": "Waffles brings excitement to every moment and encourages teammates.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 7,
+            "health": 7,
+            "focus": 6,
+            "intelligence": 6,
+            "kindness": 10
+        },
+        "__v": 0,
+        "assembler": "Grace Lin"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d5d",
+        "name": "Biscuit",
+        "adjectives": [
+            "warm",
+            "friendly",
+            "relaxed"
+        ],
+        "body": {
+            "head": "brown",
+            "front1": "red",
+            "front2": "yellow",
+            "back1": "green",
+            "back2": "pink"
+        },
+        "derpy": true,
+        "bio": "Biscuit waddles happily through every situation and spreads calm energy.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 6,
+            "health": 9,
+            "focus": 4,
+            "intelligence": 5,
+            "kindness": 10
+        },
+        "__v": 0,
+        "assembler": "Daniel Ortiz"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d5e",
+        "name": "Zap",
+        "adjectives": [
+            "fast",
+            "bold",
+            "electric"
+        ],
+        "body": {
+            "head": "red",
+            "front1": "blue",
+            "front2": "yellow",
+            "back1": "purple",
+            "back2": "green"
+        },
+        "derpy": false,
+        "bio": "Zap rushes into action quickly and enjoys competitive challenges.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 9,
+            "health": 6,
+            "focus": 7,
+            "intelligence": 6,
+            "kindness": 6
+        },
+        "__v": 0,
+        "assembler": "Liam Brooks"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d5f",
+        "name": "Marbles",
+        "adjectives": [
+            "quirky",
+            "creative",
+            "playful"
+        ],
+        "body": {
+            "head": "pink",
+            "front1": "purple",
+            "front2": "green",
+            "back1": "yellow",
+            "back2": "blue"
+        },
+        "derpy": true,
+        "bio": "Marbles invents unusual games that somehow become everyone\u2019s favorite activity.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 5,
+            "health": 6,
+            "focus": 5,
+            "intelligence": 8,
+            "kindness": 8
+        },
+        "__v": 0,
+        "assembler": "Sophie Bennett"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d60",
+        "name": "Orbit",
+        "adjectives": [
+            "curious",
+            "patient",
+            "alert"
+        ],
+        "body": {
+            "head": "green",
+            "front1": "yellow",
+            "front2": "blue",
+            "back1": "pink",
+            "back2": "purple"
+        },
+        "derpy": false,
+        "bio": "Orbit circles around new ideas until the perfect solution appears.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 6,
+            "health": 7,
+            "focus": 8,
+            "intelligence": 8,
+            "kindness": 7
+        },
+        "__v": 0,
+        "assembler": "Ethan Ward"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d61",
+        "name": "Sprout",
+        "adjectives": [
+            "gentle",
+            "kind",
+            "hopeful"
+        ],
+        "body": {
+            "head": "yellow",
+            "front1": "green",
+            "front2": "pink",
+            "back1": "brown",
+            "back2": "purple"
+        },
+        "derpy": false,
+        "bio": "Sprout encourages everyone to try again even when things feel difficult.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 5,
+            "health": 8,
+            "focus": 6,
+            "intelligence": 6,
+            "kindness": 10
+        },
+        "__v": 0,
+        "assembler": "Olivia Kane"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d62",
+        "name": "Rocket",
+        "adjectives": [
+            "fast",
+            "fearless",
+            "focused"
+        ],
+        "body": {
+            "head": "red",
+            "front1": "yellow",
+            "front2": "blue",
+            "back1": "green",
+            "back2": "purple"
+        },
+        "derpy": false,
+        "bio": "Rocket blasts into new challenges with incredible confidence.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 9,
+            "health": 6,
+            "focus": 7,
+            "intelligence": 7,
+            "kindness": 6
+        },
+        "__v": 0,
+        "assembler": "Noah Chen"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d63",
+        "name": "Pebble",
+        "adjectives": [
+            "small",
+            "steady",
+            "reliable"
+        ],
+        "body": {
+            "head": "brown",
+            "front1": "green",
+            "front2": "yellow",
+            "back1": "blue",
+            "back2": "pink"
+        },
+        "derpy": false,
+        "bio": "Pebble may be small but never gives up when the team needs help.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 6,
+            "health": 7,
+            "focus": 7,
+            "intelligence": 6,
+            "kindness": 8
+        },
+        "__v": 0,
+        "assembler": "Lucas Park"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d64",
+        "name": "Twizzle",
+        "adjectives": [
+            "spinny",
+            "fun",
+            "energetic"
+        ],
+        "body": {
+            "head": "pink",
+            "front1": "purple",
+            "front2": "yellow",
+            "back1": "green",
+            "back2": "blue"
+        },
+        "derpy": true,
+        "bio": "Twizzle loves spinning around the room before starting any new adventure.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 5,
+            "health": 6,
+            "focus": 4,
+            "intelligence": 6,
+            "kindness": 9
+        },
+        "__v": 0,
+        "assembler": "Amelia Scott"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d65",
+        "name": "Echo",
+        "adjectives": [
+            "observant",
+            "quiet",
+            "thoughtful"
+        ],
+        "body": {
+            "head": "blue",
+            "front1": "green",
+            "front2": "yellow",
+            "back1": "purple",
+            "back2": "pink"
+        },
+        "derpy": false,
+        "bio": "Echo listens carefully before offering clever ideas.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 6,
+            "health": 6,
+            "focus": 9,
+            "intelligence": 8,
+            "kindness": 7
+        },
+        "__v": 0,
+        "assembler": "Henry Price"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d66",
+        "name": "Tango",
+        "adjectives": [
+            "brave",
+            "bold",
+            "energetic"
+        ],
+        "body": {
+            "head": "red",
+            "front1": "yellow",
+            "front2": "purple",
+            "back1": "blue",
+            "back2": "green"
+        },
+        "derpy": false,
+        "bio": "Tango leaps into action and inspires others to follow.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 8,
+            "health": 7,
+            "focus": 6,
+            "intelligence": 6,
+            "kindness": 7
+        },
+        "__v": 0,
+        "assembler": "Jack Rivera"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d67",
+        "name": "Pogo",
+        "adjectives": [
+            "bouncy",
+            "excited",
+            "joyful"
+        ],
+        "body": {
+            "head": "pink",
+            "front1": "yellow",
+            "front2": "green",
+            "back1": "purple",
+            "back2": "blue"
+        },
+        "derpy": true,
+        "bio": "Pogo bounces everywhere spreading excitement.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 6,
+            "health": 7,
+            "focus": 4,
+            "intelligence": 5,
+            "kindness": 9
+        },
+        "__v": 0,
+        "assembler": "Ella Martin"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d68",
+        "name": "Blip",
+        "adjectives": [
+            "tiny",
+            "fast",
+            "sharp"
+        ],
+        "body": {
+            "head": "yellow",
+            "front1": "blue",
+            "front2": "green",
+            "back1": "pink",
+            "back2": "purple"
+        },
+        "derpy": false,
+        "bio": "Blip moves quickly and always seems one step ahead.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 6,
+            "health": 6,
+            "focus": 8,
+            "intelligence": 7,
+            "kindness": 6
+        },
+        "__v": 0,
+        "assembler": "Caleb Foster"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d69",
+        "name": "Mocha",
+        "adjectives": [
+            "cozy",
+            "friendly",
+            "kind"
+        ],
+        "body": {
+            "head": "brown",
+            "front1": "pink",
+            "front2": "yellow",
+            "back1": "green",
+            "back2": "purple"
+        },
+        "derpy": false,
+        "bio": "Mocha enjoys warm corners and friendly company.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 5,
+            "health": 8,
+            "focus": 6,
+            "intelligence": 6,
+            "kindness": 10
+        },
+        "__v": 0,
+        "assembler": "Sophia Delgado"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d6a",
+        "name": "Bolt",
+        "adjectives": [
+            "quick",
+            "strong",
+            "fearless"
+        ],
+        "body": {
+            "head": "red",
+            "front1": "blue",
+            "front2": "yellow",
+            "back1": "purple",
+            "back2": "green"
+        },
+        "derpy": false,
+        "bio": "Bolt charges through obstacles with unstoppable energy.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 9,
+            "health": 7,
+            "focus": 7,
+            "intelligence": 6,
+            "kindness": 6
+        },
+        "__v": 0,
+        "assembler": "Owen Hughes"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d6b",
+        "name": "Mint",
+        "adjectives": [
+            "fresh",
+            "bright",
+            "hopeful"
+        ],
+        "body": {
+            "head": "green",
+            "front1": "yellow",
+            "front2": "pink",
+            "back1": "blue",
+            "back2": "purple"
+        },
+        "derpy": false,
+        "bio": "Mint encourages new ideas and positive thinking.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 6,
+            "health": 7,
+            "focus": 7,
+            "intelligence": 7,
+            "kindness": 9
+        },
+        "__v": 0,
+        "assembler": "Lily Turner"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d6c",
+        "name": "Pebbles",
+        "adjectives": [
+            "steady",
+            "quiet",
+            "loyal"
+        ],
+        "body": {
+            "head": "brown",
+            "front1": "yellow",
+            "front2": "green",
+            "back1": "pink",
+            "back2": "blue"
+        },
+        "derpy": false,
+        "bio": "Pebbles quietly supports the entire team.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 6,
+            "health": 7,
+            "focus": 7,
+            "intelligence": 6,
+            "kindness": 8
+        },
+        "__v": 0,
+        "assembler": "Aaron Cole"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d6d",
+        "name": "Fizz",
+        "adjectives": [
+            "sparkly",
+            "energetic",
+            "fun"
+        ],
+        "body": {
+            "head": "pink",
+            "front1": "purple",
+            "front2": "yellow",
+            "back1": "green",
+            "back2": "blue"
+        },
+        "derpy": true,
+        "bio": "Fizz pops with excitement whenever something new happens.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 5,
+            "health": 6,
+            "focus": 4,
+            "intelligence": 7,
+            "kindness": 8
+        },
+        "__v": 0,
+        "assembler": "Chloe Grant"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d6e",
+        "name": "Orbit Jr",
+        "adjectives": [
+            "curious",
+            "watchful",
+            "smart"
+        ],
+        "body": {
+            "head": "blue",
+            "front1": "yellow",
+            "front2": "green",
+            "back1": "purple",
+            "back2": "pink"
+        },
+        "derpy": false,
+        "bio": "Orbit Jr studies the room carefully before acting.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 6,
+            "health": 6,
+            "focus": 8,
+            "intelligence": 8,
+            "kindness": 7
+        },
+        "__v": 0,
+        "assembler": "Mason Hale"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d6f",
+        "name": "Glider",
+        "adjectives": [
+            "smooth",
+            "calm",
+            "steady"
+        ],
+        "body": {
+            "head": "green",
+            "front1": "blue",
+            "front2": "yellow",
+            "back1": "pink",
+            "back2": "purple"
+        },
+        "derpy": false,
+        "bio": "Glider moves gracefully through every challenge.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 7,
+            "health": 7,
+            "focus": 8,
+            "intelligence": 7,
+            "kindness": 7
+        },
+        "__v": 0,
+        "assembler": "Eli Brooks"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d70",
+        "name": "Rumble",
+        "adjectives": [
+            "strong",
+            "loud",
+            "brave"
+        ],
+        "body": {
+            "head": "red",
+            "front1": "brown",
+            "front2": "yellow",
+            "back1": "green",
+            "back2": "blue"
+        },
+        "derpy": false,
+        "bio": "Rumble loves big dramatic moments.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 10,
+            "health": 8,
+            "focus": 5,
+            "intelligence": 5,
+            "kindness": 6
+        },
+        "__v": 0,
+        "assembler": "Tyler Ford"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d71",
+        "name": "Luna",
+        "adjectives": [
+            "dreamy",
+            "quiet",
+            "kind"
+        ],
+        "body": {
+            "head": "purple",
+            "front1": "pink",
+            "front2": "blue",
+            "back1": "yellow",
+            "back2": "green"
+        },
+        "derpy": false,
+        "bio": "Luna loves peaceful nights and thoughtful plans.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 5,
+            "health": 7,
+            "focus": 8,
+            "intelligence": 8,
+            "kindness": 9
+        },
+        "__v": 0,
+        "assembler": "Aria Bennett"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d72",
+        "name": "Sprinter",
+        "adjectives": [
+            "fast",
+            "focused",
+            "competitive"
+        ],
+        "body": {
+            "head": "yellow",
+            "front1": "blue",
+            "front2": "red",
+            "back1": "green",
+            "back2": "purple"
+        },
+        "derpy": false,
+        "bio": "Sprinter races through every challenge.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 8,
+            "health": 6,
+            "focus": 7,
+            "intelligence": 6,
+            "kindness": 6
+        },
+        "__v": 0,
+        "assembler": "Nathan Cook"
+    },
+    {
+        "_id": "69a8ea5053e250fdaf139d73",
+        "name": "Glow",
+        "adjectives": [
+            "bright",
+            "hopeful",
+            "cheerful"
+        ],
+        "body": {
+            "head": "yellow",
+            "front1": "pink",
+            "front2": "purple",
+            "back1": "green",
+            "back2": "blue"
+        },
+        "derpy": false,
+        "bio": "Glow brings positivity wherever it goes.",
+        "date": "2026-03-04T00:00:00.000Z",
+        "approved": true,
+        "stats": {
+            "strength": 6,
+            "health": 7,
+            "focus": 6,
+            "intelligence": 7,
+            "kindness": 10
+        },
+        "__v": 0,
+        "assembler": "Madison Ward"
+    }
+]
