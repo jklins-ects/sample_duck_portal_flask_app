@@ -1,38 +1,25 @@
+import json
 import threading
 from typing import Optional, Dict, Any
 
 from flask import Flask, render_template
 from flask_socketio import SocketIO
+
+# Uses the same portal manager + state type your existing script uses
+from nfc_portal import NfcPortalManager, PortalState
+
 import duck
-from nfc_portal import (
-    NfcPortalManager,
-    PortalState,
-    run_simulator_input_loop,
-)
 
-# --------------------------------
-# Config
-# --------------------------------
-
-SIMULATION_MODE = False
-
-# Real reader matching
+# Match your reader naming (copied from your controller pattern)
 LEFT_READER_MATCH = "0"
 RIGHT_READER_MATCH = "1"
 
 
 def classify_portal_side(reader_name: str) -> Optional[str]:
-    """
-    Supports both real reader names and simulation names.
-    """
-    reader_upper = reader_name.upper()
-
-    if "SIM_LEFT" in reader_upper or "LEFT" in reader_upper or LEFT_READER_MATCH in reader_name:
+    if LEFT_READER_MATCH in reader_name:
         return "left"
-
-    if "SIM_RIGHT" in reader_upper or "RIGHT" in reader_upper or RIGHT_READER_MATCH in reader_name:
+    if RIGHT_READER_MATCH in reader_name:
         return "right"
-
     return None
 
 
@@ -40,9 +27,13 @@ def classify_portal_side(reader_name: str) -> Optional[str]:
 # Duck data lookup (stub)
 # -----------------------------
 def get_duck_data(duck_id: str) -> Dict[str, Any]:
+    """
+    TODO: Replace this with your real lookup.
+    For now, returns hardcoded data (and tweaks name/id so you can test different UIDs).
+    """
     default_value = {
         "_id": "5555555555555555555555555",
-        "name": f"Not a real Duck {duck_id}",
+        "name": "Not a real Duck",
         "adjectives": ["bright", "hopeful", "cheerful"],
         "body": {"head": "yellow", "front1": "pink", "front2": "purple", "back1": "green", "back2": "blue"},
         "derpy": False,
@@ -54,10 +45,10 @@ def get_duck_data(duck_id: str) -> Dict[str, Any]:
         "assembler": "Nobody, it's fake",
     }
 
-    # base = default_value
-
-    base = next(
-        (x for x in duck_manager.data if x["_id"] == duck_id), default_value)
+    base = default_value
+    """
+    base = next((x for x in duck_manager.data if x["_id"] == duck_id), default_value)
+    """
 
     # make it obvious on-screen which duck is which
     out = dict(base)
@@ -71,18 +62,21 @@ def get_duck_data(duck_id: str) -> Dict[str, Any]:
 # -----------------------------
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "dev"
+
+# If you use eventlet or gevent, it’s even smoother; threading works fine for starters.
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
 
+# Track last-seen per side so we only emit when changes happen
 _state_lock = threading.Lock()
 _last_uid_by_side: Dict[str, Optional[str]] = {"left": None, "right": None}
 _active_ducks: Dict[str, Optional[Dict[str, Any]]] = {
     "left": None, "right": None}
 
-_manager: Optional[NfcPortalManager] = None
-
 
 def _portal_payload(state: PortalState) -> Dict[str, Any]:
+    # Use UID as duck_id (you can swap this to read JSON-from-tag later)
     duck_id = state.get_id()
+
     duck = get_duck_data(duck_id)
 
     return {
@@ -98,28 +92,25 @@ def on_state_changed(old_state: PortalState, new_state: PortalState):
         return
 
     uid_now = new_state.uid_hex if new_state.has_tag() else None
-
     with _state_lock:
         uid_prev = _last_uid_by_side.get(side)
         if uid_now == uid_prev:
             return
-
         _last_uid_by_side[side] = uid_now
-
-        if uid_now is None:
-            _active_ducks[side] = None
-        else:
-            _active_ducks[side] = get_duck_data(new_state.get_id())
-
+        duck_now = get_duck_data(new_state.get_id())
+        _active_ducks[side] = duck_now
+    # Emit to all connected browsers
     if uid_now is None:
         socketio.emit("portal_clear", {"side": side})
     else:
         socketio.emit("portal_update", _portal_payload(new_state))
 
 
+_manager: Optional[NfcPortalManager] = None
+
+
 def start_nfc_manager():
     global _manager
-
     if _manager is not None:
         return
 
@@ -127,7 +118,6 @@ def start_nfc_manager():
         poll_interval_seconds=0.20,
         memory_page_end_inclusive=0x40,
         on_state_changed=on_state_changed,
-        simulation_mode=SIMULATION_MODE,
     )
     _manager.start()
 
@@ -139,38 +129,26 @@ def index():
 
 @socketio.on("connect")
 def _on_connect():
+    """
+    When a client connects, push the current known state so the UI is correct.
+    """
     with _state_lock:
         snapshot = dict(_last_uid_by_side)
-        ducks_snapshot = dict(_active_ducks)
 
     for side, uid in snapshot.items():
         if uid:
+            # fake a payload without needing PortalState:
             socketio.emit(
                 "portal_update",
-                {"side": side, "uid": uid, "duck": ducks_snapshot[side]},
+                {"side": side, "uid": uid, "duck": _active_ducks[side]},
             )
         else:
             socketio.emit("portal_clear", {"side": side})
 
 
 if __name__ == "__main__":
+    # Start NFC manager once when server starts
     start_nfc_manager()
     duck_manager = duck.DuckManager()
-    if SIMULATION_MODE:
-        server_thread = threading.Thread(
-            target=lambda: socketio.run(
-                app,
-                host="0.0.0.0",
-                port=5000,
-                debug=False,
-                use_reloader=False,
-            ),
-            daemon=True,
-        )
-        server_thread.start()
-
-        print("Flask server running at http://localhost:5000")
-        print("Simulation mode is ON.")
-        run_simulator_input_loop(_manager)
-    else:
-        socketio.run(app, host="0.0.0.0", port=5000, debug=True)
+    # Run web server
+    socketio.run(app, host="0.0.0.0", port=5000, debug=True)

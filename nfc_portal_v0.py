@@ -1,8 +1,7 @@
 """
 nfc_portal.py
 
-Reusable NFC portal module for PC/SC CCID readers (pyscard),
-with optional keyboard-driven simulation mode.
+Reusable NFC portal module for PC/SC CCID readers (pyscard).
 
 Features:
 - Polls all connected PC/SC readers
@@ -17,7 +16,6 @@ Features:
     - UNKNOWN fallback
 - Detects tag present / removed / changed
 - Emits callbacks with per-reader PortalState
-- Optional simulation mode with keyboard controls
 
 Install:
     pip install pyscard
@@ -29,7 +27,6 @@ import json
 import time
 import threading
 import hashlib
-import copy
 from dataclasses import dataclass
 from typing import Callable, Optional, Tuple, Dict, Any, List
 
@@ -44,13 +41,17 @@ from smartcard.Exceptions import CardConnectionException, NoCardException
 STATUS_SUCCESS_SW1 = 0x90
 STATUS_SUCCESS_SW2 = 0x00
 
+# common PC/SC “Get UID” for contactless readers
 APDU_GET_CARD_UID = [0xFF, 0xCA, 0x00, 0x00, 0x00]
 
-ERROR_CARD_UNRESPONSIVE_HEX = "80100066"
-ERROR_CARD_REMOVED_HEX = "80100069"
+ERROR_CARD_UNRESPONSIVE_HEX = "80100066"  # SCARD_W_UNRESPONSIVE_CARD
+ERROR_CARD_REMOVED_HEX = "80100069"       # SCARD_W_REMOVED_CARD
 
 
 def _is_transient_card_error(exception_object: Exception) -> bool:
+    """
+    True for “tag moved / flicker” errors. We treat these as “no stable tag”.
+    """
     msg = str(exception_object).lower().replace("0x", "")
     return (
         "not responding to a reset" in msg
@@ -87,136 +88,18 @@ URI_PREFIX_TABLE = [
 
 
 # -----------------------------
-# Simulation data
-# -----------------------------
-
-SIM_DUCKS: Dict[str, List[Dict[str, Any]]] = {
-    "NOODLE": [
-        {"type": "url", "value": "https://duckland-production.up.railway.app/ducks/69a8ea5053e250fdaf139d59"},
-        {"type": "text", "lang": "en", "value": "69a8ea5053e250fdaf139d59"},
-        {"type": "json", "value": {"_id": "69a8ea5053e250fdaf139d59",
-                                   "assembler": "Emma Hayes", "name": "Noodle"}}
-    ],
-    "NIMBUS": [
-        {"type": "url", "value": "https://duckland-production.up.railway.app/ducks/69a8ea5053e250fdaf139d5a"},
-        {"type": "text", "lang": "en", "value": "69a8ea5053e250fdaf139d5a"},
-        {"type": "json", "value": {"_id": "69a8ea5053e250fdaf139d5a",
-                                   "assembler": "Isaac Turner", "name": "Nimbus"}}
-    ],
-    "CRICKET": [
-        {"type": "url", "value": "https://duckland-production.up.railway.app/ducks/69a8ea5053e250fdaf139d5b"},
-        {"type": "text", "lang": "en", "value": "69a8ea5053e250fdaf139d5b"},
-        {"type": "json", "value": {"_id": "69a8ea5053e250fdaf139d5b",
-                                   "assembler": "Tyler Brooks", "name": "Cricket"}}
-    ],
-    "WAFFLES": [
-        {"type": "url", "value": "https://duckland-production.up.railway.app/ducks/69a8ea5053e250fdaf139d5c"},
-        {"type": "text", "lang": "en", "value": "69a8ea5053e250fdaf139d5c"},
-        {"type": "json", "value": {"_id": "69a8ea5053e250fdaf139d5c",
-                                   "assembler": "Grace Lin", "name": "Waffles"}}
-    ],
-    "BISCUIT": [
-        {"type": "url", "value": "https://duckland-production.up.railway.app/ducks/69a8ea5053e250fdaf139d5d"},
-        {"type": "text", "lang": "en", "value": "69a8ea5053e250fdaf139d5d"},
-        {"type": "json", "value": {"_id": "69a8ea5053e250fdaf139d5d",
-                                   "assembler": "Daniel Ortiz", "name": "Biscuit"}}
-    ],
-}
-
-
-def _build_sim_ndef_records(sim_records: List[Dict[str, Any]]) -> Tuple["NdefRecord", ...]:
-    """
-    Convert simple simulation dictionaries into NdefRecord objects so the rest
-    of the app can use the exact same PortalState helpers.
-    """
-    out: List[NdefRecord] = []
-
-    for record in sim_records:
-        rtype = record.get("type")
-
-        if rtype == "url":
-            value = str(record.get("value", ""))
-            out.append(
-                NdefRecord(
-                    kind="URL",
-                    type_text="U",
-                    payload_bytes=value.encode("utf-8"),
-                    text_value=value,
-                )
-            )
-
-        elif rtype == "text":
-            value = str(record.get("value", ""))
-            out.append(
-                NdefRecord(
-                    kind="TEXT",
-                    type_text="T",
-                    payload_bytes=value.encode("utf-8"),
-                    text_value=value,
-                )
-            )
-
-        elif rtype == "json":
-            value = record.get("value", {})
-            json_text = json.dumps(value)
-            out.append(
-                NdefRecord(
-                    kind="DATA(MIME)",
-                    type_text="application/json",
-                    payload_bytes=json_text.encode("utf-8"),
-                    text_value=json_text,
-                    mime_type="application/json",
-                )
-            )
-
-        else:
-            value = json.dumps(record)
-            out.append(
-                NdefRecord(
-                    kind="UNKNOWN",
-                    type_text="unknown",
-                    payload_bytes=value.encode("utf-8"),
-                    text_value=value,
-                )
-            )
-
-    return tuple(out)
-
-
-class SimulatedPortalReader:
-    def __init__(self, reader_name: str):
-        self.reader_name = reader_name
-        self.uid_hex: Optional[str] = None
-        self.ndef_records: Tuple["NdefRecord", ...] = tuple()
-
-    def set_duck(self, duck_id: str) -> None:
-        duck_id = duck_id.upper()
-        if duck_id not in SIM_DUCKS:
-            raise ValueError(f"Unknown simulated duck: {duck_id}")
-
-        self.uid_hex = f"SIM-{self.reader_name}-{duck_id}"
-        self.ndef_records = _build_sim_ndef_records(
-            copy.deepcopy(SIM_DUCKS[duck_id]))
-
-    def clear(self) -> None:
-        self.uid_hex = None
-        self.ndef_records = tuple()
-
-    def get_state(self) -> "PortalState":
-        return PortalState(
-            reader_name=self.reader_name,
-            uid_hex=self.uid_hex,
-            ndef_records=self.ndef_records,
-        )
-
-
-# -----------------------------
 # Public data types
 # -----------------------------
 
 @dataclass(frozen=True)
 class NdefRecord:
-    kind: str
+    """
+    One decoded NDEF record.
+
+    payload_bytes: raw bytes exactly as stored in the tag record payload.
+    text_value: friendly interpretation (best-effort) for display/logging.
+    """
+    kind: str  # "URL" | "TEXT" | "DATA(MIME)" | "DATA(EXTERNAL)" | "ABSOLUTE_URI" | "UNKNOWN"
     type_text: str
     payload_bytes: bytes
     text_value: str
@@ -227,14 +110,24 @@ class NdefRecord:
         return self.payload_bytes.decode("utf-8", errors=errors)
 
     def as_json(self) -> Any:
+        """
+        Parse payload as JSON.
+
+        Some phone NFC apps write "smart quotes" (curly quotes) which are NOT valid JSON.
+        We normalize common curly quotes to straight quotes before json.loads.
+        """
         raw_text = self.payload_bytes.decode("utf-8", errors="strict")
+
+        # Normalize “ ” ‘ ’ to standard JSON quotes
         normalized_text = (
             raw_text.replace("\u201c", '"')
                     .replace("\u201d", '"')
                     .replace("\u2018", "'")
                     .replace("\u2019", "'")
+            # non-breaking space -> space (sometimes appears)
                     .replace("\u00A0", " ")
         )
+
         return json.loads(normalized_text)
 
     def looks_like_json(self) -> bool:
@@ -244,9 +137,12 @@ class NdefRecord:
 
 @dataclass(frozen=True)
 class PortalState:
+    """
+    Current stable state for one reader.
+    """
     reader_name: str
-    uid_hex: Optional[str]
-    ndef_records: Tuple[NdefRecord, ...]
+    uid_hex: Optional[str]                  # None when no tag present
+    ndef_records: Tuple[NdefRecord, ...]    # empty when none/unknown
 
     def has_tag(self) -> bool:
         return self.uid_hex is not None
@@ -264,6 +160,13 @@ class PortalState:
         return None
 
     def first_json(self) -> Optional[Any]:
+        """
+        Returns the first JSON object found.
+        Prefers explicit application/json MIME records.
+        Falls back to trying to parse JSON from raw payload bytes for other record types.
+        """
+
+        # 1) Prefer explicit application/json MIME record
         for r in self.ndef_records:
             if r.kind == "DATA(MIME)" and (r.mime_type or "").lower() == "application/json":
                 try:
@@ -271,6 +174,7 @@ class PortalState:
                 except Exception:
                     pass
 
+        # 2) Next: try parsing JSON from raw bytes for other “data-like” records
         for r in self.ndef_records:
             if r.kind in ("DATA(MIME)", "DATA(EXTERNAL)", "UNKNOWN", "ABSOLUTE_URI", "TEXT", "URL"):
                 try:
@@ -282,23 +186,21 @@ class PortalState:
 
     def get_id(self) -> str:
         obj = self.first_json()
-
-        # preferred simulator / real tag schema
-        if isinstance(obj, dict):
-            if isinstance(obj.get("duckId"), str) and obj["duckId"].strip():
-                return obj["duckId"].strip()
-            if isinstance(obj.get("_id"), str) and obj["_id"].strip():
-                return obj["_id"].strip()
-            if isinstance(obj.get("name"), str) and obj["name"].strip():
-                return obj["name"].strip()
-
+        if isinstance(obj, dict) and isinstance(obj.get("name"), str) and obj["name"].strip():
+            return obj["_id"].strip()
         txt = self.first_text()
         if txt:
             return txt
-
-        return self.uid_hex or ""
+        return ""
 
     def get_name(self) -> str:
+        """
+        Best-effort duck name:
+          1) JSON field "name" if present
+          2) TEXT record value
+          3) URL last path segment (optional)
+          4) UID fallback
+        """
         obj = self.first_json()
         if isinstance(obj, dict) and isinstance(obj.get("name"), str) and obj["name"].strip():
             return obj["name"].strip()
@@ -309,6 +211,7 @@ class PortalState:
 
         url = self.first_url()
         if url:
+            # optional heuristic: last path chunk
             parts = [p for p in url.split("/") if p]
             if parts:
                 return parts[-1]
@@ -321,6 +224,12 @@ class PortalState:
 # -----------------------------
 
 def _read_type2_memory_pages(card_connection, start_page_inclusive: int, end_page_inclusive: int) -> Optional[bytes]:
+    """
+    Reads Type 2 tag pages (4 bytes each) via PC/SC READ BINARY:
+      FF B0 00 <page> 04
+
+    Returns bytes or None if not supported on this reader/tag combo.
+    """
     dump = bytearray()
     for page in range(start_page_inclusive, end_page_inclusive + 1):
         apdu_read_page = [0xFF, 0xB0, 0x00, page & 0xFF, 0x04]
@@ -332,6 +241,9 @@ def _read_type2_memory_pages(card_connection, start_page_inclusive: int, end_pag
 
 
 def _extract_ndef_from_type2_tlvs(type2_memory_bytes: bytes) -> Optional[bytes]:
+    """
+    Scans TLVs starting at byte offset 16 (page 4) and returns the NDEF Message TLV (0x03) payload.
+    """
     if not type2_memory_bytes or len(type2_memory_bytes) < 16:
         return None
 
@@ -353,6 +265,7 @@ def _extract_ndef_from_type2_tlvs(type2_memory_bytes: bytes) -> Optional[bytes]:
         tlv_length = type2_memory_bytes[idx]
         idx += 1
 
+        # Long-form length support
         if tlv_length == 0xFF:
             if idx + 1 >= n:
                 return None
@@ -383,6 +296,9 @@ def _safe_hex(payload_bytes: bytes, limit: int = 96) -> str:
 
 
 def _payload_to_text(payload_bytes: bytes) -> str:
+    """
+    Prefer UTF-8 text, fall back to HEX preview.
+    """
     if not payload_bytes:
         return ""
     try:
@@ -392,6 +308,9 @@ def _payload_to_text(payload_bytes: bytes) -> str:
 
 
 def _parse_ndef_message(ndef_message_bytes: bytes) -> Tuple[NdefRecord, ...]:
+    """
+    Parses an NDEF message into records, with both raw bytes + friendly strings.
+    """
     if not ndef_message_bytes:
         return tuple()
 
@@ -441,6 +360,7 @@ def _parse_ndef_message(ndef_message_bytes: bytes) -> Tuple[NdefRecord, ...]:
         type_bytes = ndef_message_bytes[idx:idx + type_length]
         idx += type_length
 
+        # skip ID bytes if present
         if idx + record_id_length > len(ndef_message_bytes):
             break
         idx += record_id_length
@@ -452,6 +372,7 @@ def _parse_ndef_message(ndef_message_bytes: bytes) -> Tuple[NdefRecord, ...]:
 
         type_text = type_bytes.decode("utf-8", errors="replace")
 
+        # Friendly decoding
         if tnf == TNF_WELL_KNOWN and type_bytes == NDEF_TYPE_URI:
             prefix_code = payload_bytes[0] if len(payload_bytes) > 0 else 0
             uri_rest = payload_bytes[1:].decode("utf-8", errors="replace")
@@ -467,6 +388,7 @@ def _parse_ndef_message(ndef_message_bytes: bytes) -> Tuple[NdefRecord, ...]:
             )
 
         elif tnf == TNF_WELL_KNOWN and type_bytes == NDEF_TYPE_TEXT:
+            # payload: status + lang + text
             if len(payload_bytes) >= 1:
                 status = payload_bytes[0]
                 lang_len = status & 0x3F
@@ -541,6 +463,10 @@ def _read_uid_hex(card_connection) -> Optional[str]:
 
 
 def _read_portal_state_for_reader(reader_obj, memory_page_end_inclusive: int) -> PortalState:
+    """
+    Reads a stable snapshot: UID + NDEF records.
+    If no tag is present (or transient error), uid_hex=None and records=empty.
+    """
     reader_name = str(reader_obj)
     try:
         connection = reader_obj.createConnection()
@@ -569,8 +495,10 @@ def _read_portal_state_for_reader(reader_obj, memory_page_end_inclusive: int) ->
 
 
 def _fingerprint_state(state: PortalState) -> str:
+    """
+    Used to detect changes without “magic” comparisons.
+    """
     h = hashlib.sha256()
-    h.update((state.reader_name or "").encode("utf-8"))
     h.update((state.uid_hex or "").encode("utf-8"))
     for r in state.ndef_records:
         h.update(r.kind.encode("utf-8"))
@@ -582,7 +510,7 @@ def _fingerprint_state(state: PortalState) -> str:
 
 
 # -----------------------------
-# Manager
+# Manager (polling)
 # -----------------------------
 
 OnTagPresentCallback = Callable[[PortalState], None]
@@ -591,6 +519,14 @@ OnStateChangedCallback = Callable[[PortalState, PortalState], None]
 
 
 class NfcPortalManager:
+    """
+    Polling-based manager that detects insert/remove/change per reader.
+
+    Why polling:
+      - embedded tags can flicker
+      - you want “changed” events, which are easiest by comparing snapshots
+    """
+
     def __init__(
         self,
         poll_interval_seconds: float = 0.20,
@@ -598,7 +534,6 @@ class NfcPortalManager:
         on_tag_present: Optional[OnTagPresentCallback] = None,
         on_tag_removed: Optional[OnTagRemovedCallback] = None,
         on_state_changed: Optional[OnStateChangedCallback] = None,
-        simulation_mode: bool = False,
     ):
         self.poll_interval_seconds = poll_interval_seconds
         self.memory_page_end_inclusive = memory_page_end_inclusive
@@ -607,29 +542,17 @@ class NfcPortalManager:
         self.on_tag_removed = on_tag_removed
         self.on_state_changed = on_state_changed
 
-        self.simulation_mode = simulation_mode
-
         self._stop_event = threading.Event()
         self._thread: Optional[threading.Thread] = None
 
         self._last_state_by_reader: Dict[str, PortalState] = {}
         self._last_fingerprint_by_reader: Dict[str, str] = {}
 
-        self._sim_left = SimulatedPortalReader("SIM_LEFT")
-        self._sim_right = SimulatedPortalReader("SIM_RIGHT")
-
     def start(self) -> None:
         if self._thread and self._thread.is_alive():
             return
-
         self._stop_event.clear()
-
-        if self.simulation_mode:
-            self._thread = threading.Thread(
-                target=self._run_sim_loop, daemon=True)
-        else:
-            self._thread = threading.Thread(target=self._run_loop, daemon=True)
-
+        self._thread = threading.Thread(target=self._run_loop, daemon=True)
         self._thread.start()
 
     def stop(self) -> None:
@@ -640,38 +563,12 @@ class NfcPortalManager:
     def get_current_states(self) -> Dict[str, PortalState]:
         return dict(self._last_state_by_reader)
 
-    def _emit_change_if_needed(self, reader_name: str, new_state: PortalState) -> None:
-        old_state = self._last_state_by_reader.get(
-            reader_name,
-            PortalState(reader_name=reader_name,
-                        uid_hex=None, ndef_records=tuple())
-        )
-
-        new_fp = _fingerprint_state(new_state)
-        old_fp = self._last_fingerprint_by_reader.get(reader_name, "")
-
-        if new_fp == old_fp:
-            return
-
-        if old_state.uid_hex is None and new_state.uid_hex is not None:
-            if self.on_tag_present:
-                self.on_tag_present(new_state)
-
-        elif old_state.uid_hex is not None and new_state.uid_hex is None:
-            if self.on_tag_removed:
-                self.on_tag_removed(old_state)
-
-        if self.on_state_changed:
-            self.on_state_changed(old_state, new_state)
-
-        self._last_state_by_reader[reader_name] = new_state
-        self._last_fingerprint_by_reader[reader_name] = new_fp
-
     def _run_loop(self) -> None:
         while not self._stop_event.is_set():
             current_reader_objects = readers()
             current_reader_names = [str(r) for r in current_reader_objects]
 
+            # Ensure we track all readers we see
             for reader_name in current_reader_names:
                 if reader_name not in self._last_state_by_reader:
                     empty = PortalState(
@@ -682,127 +579,31 @@ class NfcPortalManager:
 
             for reader_obj in current_reader_objects:
                 reader_name = str(reader_obj)
+                old_state = self._last_state_by_reader.get(
+                    reader_name, PortalState(
+                        reader_name=reader_name, uid_hex=None, ndef_records=tuple())
+                )
+
                 new_state = _read_portal_state_for_reader(
                     reader_obj, self.memory_page_end_inclusive)
-                self._emit_change_if_needed(reader_name, new_state)
+                new_fp = _fingerprint_state(new_state)
+                old_fp = self._last_fingerprint_by_reader.get(reader_name, "")
+
+                if new_fp != old_fp:
+                    # Present / removed
+                    if old_state.uid_hex is None and new_state.uid_hex is not None:
+                        if self.on_tag_present:
+                            self.on_tag_present(new_state)
+
+                    elif old_state.uid_hex is not None and new_state.uid_hex is None:
+                        if self.on_tag_removed:
+                            self.on_tag_removed(old_state)
+
+                    # Always emit state_changed if provided
+                    if self.on_state_changed:
+                        self.on_state_changed(old_state, new_state)
+
+                    self._last_state_by_reader[reader_name] = new_state
+                    self._last_fingerprint_by_reader[reader_name] = new_fp
 
             time.sleep(self.poll_interval_seconds)
-
-    def _run_sim_loop(self) -> None:
-        for sim_reader_name in ("SIM_LEFT", "SIM_RIGHT"):
-            if sim_reader_name not in self._last_state_by_reader:
-                empty = PortalState(reader_name=sim_reader_name,
-                                    uid_hex=None, ndef_records=tuple())
-                self._last_state_by_reader[sim_reader_name] = empty
-                self._last_fingerprint_by_reader[sim_reader_name] = _fingerprint_state(
-                    empty)
-
-        while not self._stop_event.is_set():
-            self._emit_change_if_needed("SIM_LEFT", self._sim_left.get_state())
-            self._emit_change_if_needed(
-                "SIM_RIGHT", self._sim_right.get_state())
-            time.sleep(self.poll_interval_seconds)
-
-    def print_sim_controls(self) -> None:
-        print(
-            """
-========== DUCK PORTAL SIMULATOR ==========
-LEFT PORTAL
-  1 = PIXEL
-  2 = GLOW
-  3 = SPARK
-  4 = BUBBLE
-  5 = DERPY
-  c = clear left
-
-RIGHT PORTAL
-  7 = PIXEL
-  8 = GLOW
-  9 = SPARK
-  0 = BUBBLE
-  - = DERPY
-  m = clear right
-
-GENERAL
-  p = print current portal states
-  q = quit simulator input loop
-==========================================
-"""
-        )
-
-    def print_current_states(self) -> None:
-        left = self._sim_left.get_state()
-        right = self._sim_right.get_state()
-
-        print("\n--- Current Portal States ---")
-        print(
-            f"LEFT  : uid={left.uid_hex}, duck_id={left.get_id()}, records={len(left.ndef_records)}")
-        print(
-            f"RIGHT : uid={right.uid_hex}, duck_id={right.get_id()}, records={len(right.ndef_records)}")
-        print("-----------------------------\n")
-
-    def handle_simulator_command(self, command: str) -> bool:
-        cmd = command.strip().lower()
-
-        try:
-            if cmd == "1":
-                self._sim_left.set_duck("NOODLE")
-                print("[SIM] Left portal -> NOODLE")
-            elif cmd == "2":
-                self._sim_left.set_duck("NIMBUS")
-                print("[SIM] Left portal -> NIMBUS")
-            elif cmd == "3":
-                self._sim_left.set_duck("CRICKET")
-                print("[SIM] Left portal -> CRICKET")
-            elif cmd == "4":
-                self._sim_left.set_duck("WAFFLES")
-                print("[SIM] Left portal -> WAFFLES")
-            elif cmd == "5":
-                self._sim_left.set_duck("BISCUIT")
-                print("[SIM] Left portal -> BISCUIT")
-            elif cmd == "c":
-                self._sim_left.clear()
-                print("[SIM] Left portal cleared")
-
-            elif cmd == "7":
-                self._sim_right.set_duck("NOODLE")
-                print("[SIM] Right portal -> NOODLE")
-            elif cmd == "8":
-                self._sim_right.set_duck("NIMBUS")
-                print("[SIM] Right portal -> NIMBUS")
-            elif cmd == "9":
-                self._sim_right.set_duck("CRICKET")
-                print("[SIM] Right portal -> CRICKET")
-            elif cmd == "0":
-                self._sim_right.set_duck("WAFFLES")
-                print("[SIM] Right portal -> WAFFLES")
-            elif cmd == "-":
-                self._sim_right.set_duck("BISCUIT")
-                print("[SIM] Right portal -> BISCUIT")
-            elif cmd == "m":
-                self._sim_right.clear()
-                print("[SIM] Right portal cleared")
-
-            elif cmd == "p":
-                self.print_current_states()
-
-            elif cmd == "q":
-                print("[SIM] Quitting simulator input loop")
-                return False
-
-            else:
-                print(f"[SIM] Unknown command: {command}")
-
-        except Exception as e:
-            print(f"[SIM] Error: {e}")
-
-        return True
-
-
-def run_simulator_input_loop(manager: NfcPortalManager) -> None:
-    manager.print_sim_controls()
-    while True:
-        cmd = input("sim> ")
-        keep_going = manager.handle_simulator_command(cmd)
-        if not keep_going:
-            break
